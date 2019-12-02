@@ -7,17 +7,17 @@ import (
 )
 
 func Map() {
-	colorlog.Debug("writing map.toml")
+	colorlog.Info("Writing map.toml")
 	err := ioutil.WriteFile("map.toml", mapToml(), 0644)
 	if err != nil {
 		colorlog.Fatal("%s", err.Error())
 	}
-	colorlog.Debug("writing template.html")
+	colorlog.Info("Writing template.html")
 	err = ioutil.WriteFile("template.html", templateHtml(), 0644)
 	if err != nil {
 		colorlog.Fatal("%s", err.Error())
 	}
-	colorlog.Debug("writing data.csv")
+	colorlog.Info("Writing data.csv")
 	err = ioutil.WriteFile("data.csv", dataCsv(), 0644)
 	if err != nil {
 		colorlog.Fatal("%s", err.Error())

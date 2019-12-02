@@ -29,16 +29,6 @@ func logo() {
 	color256.PrintRandom("  ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝ \n")
 }
 
-func readSiteConfig() site.Site {
-	var conf site.Site
-	_, err := toml.DecodeFile("site.toml", &conf)
-	if err != nil {
-		colorlog.Fatal(err.Error())
-		os.Exit(1)
-	}
-	return conf
-}
-
 func readMapConfig() leaflet.Mapdata {
 	var conf leaflet.Mapdata
 	_, err := toml.DecodeFile("map.toml", &conf)
@@ -54,18 +44,15 @@ func main() {
 	logo()
 	pr := argparse.NewParser("goMap", "Generates a map from a given input file")
 	v := pr.Flag("v", "verbose", &argparse.Options{Required: false, Help: "Set verbosity"})
-	vv := pr.Flag("", "verboser", &argparse.Options{Required: false, Help: "Set higher verbosity"})
 	i := pr.Flag("i", "init", &argparse.Options{Required: false, Help: "Initializes the a map project"})
 	err := pr.Parse(os.Args)
 	if err != nil {
 		fmt.Print(pr.Usage(err))
 	}
 	if *v {
-		colorlog.SetLogLevel(colorlog.INFO)
-	} else if *vv {
 		colorlog.SetLogLevel(colorlog.DEBUG)
 	} else {
-		colorlog.SetLogLevel(colorlog.ERROR)
+		colorlog.SetLogLevel(colorlog.INFO)
 	}
 	if *i {
 		initalize.Map()
@@ -73,6 +60,7 @@ func main() {
 	}
 
 	leaflet.Syms = make(map[string]string)
+	colorlog.Info("Reading config")
 	mainMap := readMapConfig()
 	markers := parser.ReadCSV("data.csv", &mainMap)
 

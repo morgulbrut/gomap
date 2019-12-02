@@ -27,7 +27,7 @@ func ReadCSV(path string, data *leaflet.Mapdata) []leaflet.Marker {
 	}
 	defer dataFile.Close()
 
-	colorlog.Debug("Generating map icons")
+	colorlog.Info("Generating map icons")
 	for _, s := range data.Symbols {
 		sym := strings.Split(s, ":")
 		leaflet.Syms[sym[0]] = sym[1]
