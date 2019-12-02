@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawgit.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    
+    <style>#map_35304f6f55084f77b230ef461b3926cd {
+        position: relative;
+        width: 100.0%;
+        height: 100.0%;
+        left: 0.0%;
+        top: 0.0%;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+
+  <style>body {padding-top: 65px;}</style>
+  </head>
+  
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">less</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            <button type="button" class="btn btn-sm align-middle btn-outline-secondary"  data-toggle="modal" data-target="#legendModal">Legende</button>
+            </li>
+            <li class="nav-item">
+            <button type="button" class="btn btn-sm align-middle btn-outline-secondary"  data-toggle="modal" data-target="#aboutModal">Über</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="legendModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Legende</h4>
+      </div>
+      <div class="modal-body">
+
+        <p><i class="fa fa-wrench" aria-hidden="true"></i> Werkstatt</p>
+<p><i class="fa fa-money" aria-hidden="true"></i> Laden</p>
+<p><i class="fa fa-shopping-basket" aria-hidden="true"></i> Lebensmittel</p>
+<p><i class="fa fa-laptop" aria-hidden="true"></i> Elektronik</p>
+<p><i class="fa fa-microchip" aria-hidden="true"></i> Hackerspace</p>
+<p><i class="fa fa-tree" aria-hidden="true"></i> Holzwerkstatt</p>
+<p><i class="fa fa-magnet" aria-hidden="true"></i> Bastelmaterial</p>
+<p><i class="fa fa-cog" aria-hidden="true"></i> Metallwerkstatt</p>
+<p><i class="fa fa-calendar" aria-hidden="true"></i> Event</p>
+<p><i class="fa fa-bicycle" aria-hidden="true"></i> Velowerkstatt</p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="aboutModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Über</h4>
+      </div>
+      <div class="modal-body">
+        <p>Wir, die Greenpeace Regionalgruppe Zürich, haben beschlossen eine Karte zu machen, mit Orten und Anlässen an denen Zeug repariert oder selber gebaut werden kann, Lebensmittel ohne Verpackung verkauft werden und so weiter. </p>
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    
+    
+    <div class="folium-map" id="map_35304f6f55084f77b230ef461b3926cd" ></div>
+</body>
+<script>    
+    
+    
+        var bounds = null;
+    
+
+    var map_35304f6f55084f77b230ef461b3926cd = L.map(
+        'map_35304f6f55084f77b230ef461b3926cd', {
+        center: [47.3686498, 8.5391825],
+        zoom: 12,
+        maxBounds: bounds,
+        layers: [],
+        worldCopyJump: false,
+        crs: L.CRS.EPSG3857,
+        zoomControl: true,
+        });
+
+    
+    
+    var tile_layer_fe7f1824f9af4bebbb6fd0acaeb0ac84 = L.tileLayer(
+        'https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png',
+        {
+        "attribution": null,
+        "detectRetina": false,
+        "maxNativeZoom": 18,
+        "maxZoom": 18,
+        "minZoom": 0,
+        "noWrap": false,
+        "subdomains": "abc"
+}).addTo(map_35304f6f55084f77b230ef461b3926cd);
+    
+            var marker_cluster_2c90d5f847a247e8adb168a1f802c0db = L.markerClusterGroup({});
+            map_35304f6f55084f77b230ef461b3926cd.addLayer(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+            
+    
+        var marker_eb9b8e0aceb04703ad8265fa516424a0 = L.marker(
+            [47.3833119, 8.53934095493378],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_a5039449788c4128924cd63e084ed00e = L.AwesomeMarkers.icon({
+                    icon: 'wrench',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_eb9b8e0aceb04703ad8265fa516424a0.setIcon(icon_a5039449788c4128924cd63e084ed00e);
+            
+    
+            var popup_5ae7ed83936c466692f96ec5738de2a7 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_646b59a5309b4ff2a7fbdc85e7b4656f = $('<div id="html_646b59a5309b4ff2a7fbdc85e7b4656f" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.dynamo.ch/werkbereich"><b>Dynamo</b></a><br/>Diverse Werkstätten: Veschiedenste Maschinen, die man je nach dem mit oder ohne Kurs benutzen kann. Darunter ein gut gewarterter Lasercutter<br/>Wasserwerkstrasse 21, 8006 Zürich<br/>Mi-Fr: 14.00 - 21.00, Sa: 14.00 - 19.00</div>')[0];
+                popup_5ae7ed83936c466692f96ec5738de2a7.setContent(html_646b59a5309b4ff2a7fbdc85e7b4656f);
+            
+
+            marker_eb9b8e0aceb04703ad8265fa516424a0.bindPopup(popup_5ae7ed83936c466692f96ec5738de2a7)
+            ;
+
+            
+        
+    
+        var marker_55e5f3cfedf84120a5c300e35a64e3d1 = L.marker(
+            [47.3928763, 8.5245783],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_c40b0ac404cf4395b74e64d0bb6c956c = L.AwesomeMarkers.icon({
+                    icon: 'laptop',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_55e5f3cfedf84120a5c300e35a64e3d1.setIcon(icon_c40b0ac404cf4395b74e64d0bb6c956c);
+            
+    
+            var popup_989329ca4f304e389d2c0a0e051fc243 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_891a12c604b54977a1c779d4a40265ec = $('<div id="html_891a12c604b54977a1c779d4a40265ec" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.revamp-it.ch/index.php/de/"><b>revamp-it</b></a><br/>Laden, der alte, wieder zum Laufen gebrachte  Computerhardware verkauft.<br/>Röschibachstr. 24 - 26, 8037 Zürich<br/>Mo-Mi, Fr: 13:00 - 17:00</div>')[0];
+                popup_989329ca4f304e389d2c0a0e051fc243.setContent(html_891a12c604b54977a1c779d4a40265ec);
+            
+
+            marker_55e5f3cfedf84120a5c300e35a64e3d1.bindPopup(popup_989329ca4f304e389d2c0a0e051fc243)
+            ;
+
+            
+        
+    
+        var marker_40e92b3cbe3a4833ae7d48bd8469cdcd = L.marker(
+            [47.3777873, 8.5257065],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_cbb40d1480ec47a1b5469d72e6b15740 = L.AwesomeMarkers.icon({
+                    icon: 'microchip',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_40e92b3cbe3a4833ae7d48bd8469cdcd.setIcon(icon_cbb40d1480ec47a1b5469d72e6b15740);
+            
+    
+            var popup_50be09ff2c374c3c85e5d2514e0d31a4 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_3bcc10d3b8234ec9b8595d4c3fb83be1 = $('<div id="html_3bcc10d3b8234ec9b8595d4c3fb83be1" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.mechatronicart.ch/mechartlab/"><b>mechartlab</b></a><br/>Hackerspace mit Fokus auf Elektronik. Lötkolben, Messgeräte, Handwerkzeug etc. ist vorhanden.<br/>Hohlstrasse 52, 8004 Zürich<br/>Di: 20:00 - open end</div>')[0];
+                popup_50be09ff2c374c3c85e5d2514e0d31a4.setContent(html_3bcc10d3b8234ec9b8595d4c3fb83be1);
+            
+
+            marker_40e92b3cbe3a4833ae7d48bd8469cdcd.bindPopup(popup_50be09ff2c374c3c85e5d2514e0d31a4)
+            ;
+
+            
+        
+    
+        var marker_0a694c3f64db4813b5ab041b75615a19 = L.marker(
+            [47.494239, 8.7164921],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_564bf869e8f54da8bced388e6ba343ac = L.AwesomeMarkers.icon({
+                    icon: 'wrench',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_0a694c3f64db4813b5ab041b75615a19.setIcon(icon_564bf869e8f54da8bced388e6ba343ac);
+            
+    
+            var popup_c43f629f22f44e0a98cd98a893911ada = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_9c66b9dad33d4391b1d19ccae19453a5 = $('<div id="html_9c66b9dad33d4391b1d19ccae19453a5" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.fablabwinti.ch"><b>FabLab Winti</b></a><br/>Ein FabLab ist eine offene, demokratische Werkstatt mit dem Ziel, Privatpersonen den Zugang zu Produktionsmittelnund modernen industriellen Produktionsverfahren für Einzelstücke zu ermöglichen. -wikipedia<br/>Technoparkstrasse 2, 8406 Winterthur<br/>Di-Do: 18:00 - 20:00, Sa: 13:00 - 17:00 </div>')[0];
+                popup_c43f629f22f44e0a98cd98a893911ada.setContent(html_9c66b9dad33d4391b1d19ccae19453a5);
+            
+
+            marker_0a694c3f64db4813b5ab041b75615a19.bindPopup(popup_c43f629f22f44e0a98cd98a893911ada)
+            ;
+
+            
+        
+    
+        var marker_6edc75510b20477ca17c9ff29e5d710d = L.marker(
+            [47.0142656, 8.3053771],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_70610d5c309d4bef871e0aedd42822ef = L.AwesomeMarkers.icon({
+                    icon: 'wrench',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_6edc75510b20477ca17c9ff29e5d710d.setIcon(icon_70610d5c309d4bef871e0aedd42822ef);
+            
+    
+            var popup_8004ddefd80d4a549b1d61a02592257e = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_30a7a6ce271f4f91af657049abeb00a7 = $('<div id="html_30a7a6ce271f4f91af657049abeb00a7" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://fablab-luzern.ch/"><b>FabLab Luzern</b></a><br/>Ein FabLab ist eine offene, demokratische Werkstatt mit dem Ziel, Privatpersonen den Zugang zu Produktionsmittelnund modernen industriellen Produktionsverfahren für Einzelstücke zu ermöglichen. -wikipedia<br/>Technikumstrasse 21, 6048 Horw<br/>Di-Do: 10:00 - 21:00</div>')[0];
+                popup_8004ddefd80d4a549b1d61a02592257e.setContent(html_30a7a6ce271f4f91af657049abeb00a7);
+            
+
+            marker_6edc75510b20477ca17c9ff29e5d710d.bindPopup(popup_8004ddefd80d4a549b1d61a02592257e)
+            ;
+
+            
+        
+    
+        var marker_3d3a3b400aa44ba5b0d3f8b06a5e9e89 = L.marker(
+            [47.3839499, 8.5099722],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_2c0cbc9b8cb74fa790de597f9841017f = L.AwesomeMarkers.icon({
+                    icon: 'wrench',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_3d3a3b400aa44ba5b0d3f8b06a5e9e89.setIcon(icon_2c0cbc9b8cb74fa790de597f9841017f);
+            
+    
+            var popup_1c833d4e2b40490a9062a301be2c7a27 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_30e3fc72044d459391cad440787dad31 = $('<div id="html_30e3fc72044d459391cad440787dad31" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://zurich.fablab.ch/"><b>FabLab Zürich</b></a><br/>Ein FabLab ist eine offene, demokratische Werkstatt mit dem Ziel, Privatpersonen den Zugang zu Produktionsmittelnund modernen industriellen Produktionsverfahren für Einzelstücke zu ermöglichen. -wikipedia<br/>Zimmerlistrasse 6,8004 Zürich<br/>Mi-Sa: 14:00 - 20:00</div>')[0];
+                popup_1c833d4e2b40490a9062a301be2c7a27.setContent(html_30e3fc72044d459391cad440787dad31);
+            
+
+            marker_3d3a3b400aa44ba5b0d3f8b06a5e9e89.bindPopup(popup_1c833d4e2b40490a9062a301be2c7a27)
+            ;
+
+            
+        
+    
+        var marker_e758836d3eb7405b8d4ca73b47f3832f = L.marker(
+            [47.3839499, 8.5099722],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_6c13f64aab614ff38ea0b524b155d6e6 = L.AwesomeMarkers.icon({
+                    icon: 'calendar',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_e758836d3eb7405b8d4ca73b47f3832f.setIcon(icon_6c13f64aab614ff38ea0b524b155d6e6);
+            
+    
+            var popup_cc651fc82a444fd38c34672453eb28d0 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_359b678f452646c9a40eb1a06a3b722e = $('<div id="html_359b678f452646c9a40eb1a06a3b722e" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://zurich.fablab.ch/"><b>Repair Cafe im FabLab Zürich</b></a><br/>"Das ist keine Reparaturwerkstatt in der man bei einem Kaffee wartet bis die Techniker fertig sind, sondern Hilfe zur Selbsthilfe." - Selbstbeschreibung<br/>Zimmerlistrasse 6,8004 Zürich<br/>1. So im Monat: 14:00 - 18:00</div>')[0];
+                popup_cc651fc82a444fd38c34672453eb28d0.setContent(html_359b678f452646c9a40eb1a06a3b722e);
+            
+
+            marker_e758836d3eb7405b8d4ca73b47f3832f.bindPopup(popup_cc651fc82a444fd38c34672453eb28d0)
+            ;
+
+            
+        
+    
+        var marker_db45d258f5904f8daa48da09455a8255 = L.marker(
+            [47.3674117, 8.5038419],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_becac22a0adc4c229ff3ca38ec71cc1f = L.AwesomeMarkers.icon({
+                    icon: 'calendar',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_db45d258f5904f8daa48da09455a8255.setIcon(icon_becac22a0adc4c229ff3ca38ec71cc1f);
+            
+    
+            var popup_8f3c76c468544f90955eefde55eb4c7c = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_403eddb3b42449bd809565495f31da2d = $('<div id="html_403eddb3b42449bd809565495f31da2d" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.gz-zh.ch/gz-heuried/angebote/detail/?tx_zgz%5Buid%5D=9551&cHash=c41fcf9a47b8e902dbf8c8a3af2a1f0c"><b>Repair Café Friesenberg</b></a><br/>Ob Kleidung, Spielsachen, Velo, Haushaltsgeräte, kleine Möbel oder Computer: im Repair Café flicken die Besucherinnen und Besucher zusammen mit Reparatur-Fachleuten kostenlos ihre kaputten Dinge. Dabei erfahren Sie eine Menge übers Reparieren, denn das Café ist Werkstätte, Treffpunkt und Austauschplattform in einem. Neu ist jeweils eine Person anwesend, die bei Softwareproblemen (Microsoft) helfen kann, Sie bei der Bedienung Ihres Smartphones unterstützt, Apps mit Ihnen installiert und Ihnen bei der Nutzung der Officeprogramme Hand bietet. -Selbstbeschreibung<br/>Döltschiweg 130,8055 Zürich<br/>3. Sa im Monat: 10:00 - 14:00</div>')[0];
+                popup_8f3c76c468544f90955eefde55eb4c7c.setContent(html_403eddb3b42449bd809565495f31da2d);
+            
+
+            marker_db45d258f5904f8daa48da09455a8255.bindPopup(popup_8f3c76c468544f90955eefde55eb4c7c)
+            ;
+
+            
+        
+    
+        var marker_a5957606a6e1410986a9a71843e39dcf = L.marker(
+            [47.2293836, 8.820262],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_6710233961624d0ebadb5c467b443280 = L.AwesomeMarkers.icon({
+                    icon: 'microchip',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_a5957606a6e1410986a9a71843e39dcf.setIcon(icon_6710233961624d0ebadb5c467b443280);
+            
+    
+            var popup_b124557e1ce64cfea37c838ad29338d0 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_c4ba503cc0e44afe96ad65e49a1557c6 = $('<div id="html_c4ba503cc0e44afe96ad65e49a1557c6" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.coredump.ch"><b>Coredump</b></a><br/><br/>Zürcherstrasse 6, 8640 Rapperswil-Jona<br/></div>')[0];
+                popup_b124557e1ce64cfea37c838ad29338d0.setContent(html_c4ba503cc0e44afe96ad65e49a1557c6);
+            
+
+            marker_a5957606a6e1410986a9a71843e39dcf.bindPopup(popup_b124557e1ce64cfea37c838ad29338d0)
+            ;
+
+            
+        
+    
+        var marker_4143ee009f2748799bdba7015dbaca44 = L.marker(
+            [47.5213386, 8.5417714],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_7647a85e1b724e7cb855a9ab183acb8a = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_4143ee009f2748799bdba7015dbaca44.setIcon(icon_7647a85e1b724e7cb855a9ab183acb8a);
+            
+    
+            var popup_74ead09e06d8467195d1707d937db7de = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_d98f571f4b5c4635991208935d47d72f = $('<div id="html_d98f571f4b5c4635991208935d47d72f" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.fuerst-unverpackt.ch/"><b>Fürst unverpackt</b></a><br/>Der erste verpackungsfreie Laden in der Region Zürcher Unterland ist seit 1.7.2017 offen. Einfacher Einkauf von natürlichen Lebensmitteln, ohne überflüssige Verpackungsmaterialien und in gewünschten Mengen.<br/>Schaffhauserstrasse 53, 8180 Bülach<br/>Di-Fr 08.30-14.00 / 15.30-19.00, Sa 9-17 Uhr</div>')[0];
+                popup_74ead09e06d8467195d1707d937db7de.setContent(html_d98f571f4b5c4635991208935d47d72f);
+            
+
+            marker_4143ee009f2748799bdba7015dbaca44.bindPopup(popup_74ead09e06d8467195d1707d937db7de)
+            ;
+
+            
+        
+    
+        var marker_0977c96f6d2c4bd6afd83cf1c494ac40 = L.marker(
+            [47.3553163, 8.5541539],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_16942e4db0564289b43f44d1b533a70c = L.AwesomeMarkers.icon({
+                    icon: 'asterisk',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_0977c96f6d2c4bd6afd83cf1c494ac40.setIcon(icon_16942e4db0564289b43f44d1b533a70c);
+            
+    
+            var popup_13c8a84264014ebeaac3971f5c06850a = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_eebb237fa6e049528fd9b65fae5c6037 = $('<div id="html_eebb237fa6e049528fd9b65fae5c6037" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.tuefi.ch/"><b>Restaurant Tüfi</b></a><br/>Seit bereits über 15 Jahren DAS Bio-Restaurant in Zürich. Aus Überzeugung kochen wir möglichst ökologisch und regional. Wir setzen ganz auf saisonale Angebote. In unserer Frisch-Produkte-Küche beziehen wir die Nahrungsmittel mehrheitlich aus biologischem Anbau.<br/>Dufourstrasse 154, 8008 Zürich-Seefeld<br/>Mo-Fr 11.30-14.00 / 18.00-23.00, Sa 18.00-23.00</div>')[0];
+                popup_13c8a84264014ebeaac3971f5c06850a.setContent(html_eebb237fa6e049528fd9b65fae5c6037);
+            
+
+            marker_0977c96f6d2c4bd6afd83cf1c494ac40.bindPopup(popup_13c8a84264014ebeaac3971f5c06850a)
+            ;
+
+            
+        
+    
+        var marker_bf30498e6a7d4c4bb8041cd3fcc0463e = L.marker(
+            [47.3888762, 8.5175844],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_c7d0d5340e2048688b611745c7415bd2 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_bf30498e6a7d4c4bb8041cd3fcc0463e.setIcon(icon_c7d0d5340e2048688b611745c7415bd2);
+            
+    
+            var popup_fa541f379bfa4311955def172c390535 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_94968121271249918a3bd5acc3ccdda5 = $('<div id="html_94968121271249918a3bd5acc3ccdda5" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://foifi.ch/"><b>FOIFI - ZeroWaste Ladencafé</b></a><br/>Züri’s erster ZeroWaste Quartierladen & Café. Ein Ort, der dir eine Alternative für unverpacktes, plastikfreies Einkaufen bietet: Lebensmittel, Alltags-Allerlei, Café-Bar und Workshops. Unser FOIFI ist Gastgeber, Ideenaustauscher, Begegnungsraum und Treffpunkt für Wissensvermittlung, Genuss, Gemeinsamkeit und Zusammenarbeit.<br/>Schiffbaustrasse 9b, 8004 Zürich<br/>Mo-Fr 09.00-19.00 / Sa 10.00-17.00</div>')[0];
+                popup_fa541f379bfa4311955def172c390535.setContent(html_94968121271249918a3bd5acc3ccdda5);
+            
+
+            marker_bf30498e6a7d4c4bb8041cd3fcc0463e.bindPopup(popup_fa541f379bfa4311955def172c390535)
+            ;
+
+            
+        
+    
+        var marker_9ccd408df37048fb9092c6055caee8a5 = L.marker(
+            [47.4105871, 8.54487855868574],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_a48df0a4bf394ee997f69edd9c052896 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_9ccd408df37048fb9092c6055caee8a5.setIcon(icon_a48df0a4bf394ee997f69edd9c052896);
+            
+    
+            var popup_1266b69990424ccab4878a6976b4ee3c = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_1c0e883d8dd544d98286d835d2f9d984 = $('<div id="html_1c0e883d8dd544d98286d835d2f9d984" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.der-bioladen.ch"><b>Casa Natura</b></a><br/><br/>Edisonstrasse 26, 8050 Zürich<br/>Di-Fr 08.00-18.30 / Sa 08.00-16.00</div>')[0];
+                popup_1266b69990424ccab4878a6976b4ee3c.setContent(html_1c0e883d8dd544d98286d835d2f9d984);
+            
+
+            marker_9ccd408df37048fb9092c6055caee8a5.bindPopup(popup_1266b69990424ccab4878a6976b4ee3c)
+            ;
+
+            
+        
+    
+        var marker_03a7e3a348b44c05a844b7bd4d737932 = L.marker(
+            [47.3893454, 8.4865564],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_10a76493b528405cae1b6a5b481ea373 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_03a7e3a348b44c05a844b7bd4d737932.setIcon(icon_10a76493b528405cae1b6a5b481ea373);
+            
+    
+            var popup_9cf1dff4679c41eb9040b75a3bbcfc4a = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_aadeb7368c584b8da8cc77137300df02 = $('<div id="html_aadeb7368c584b8da8cc77137300df02" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.derbioladen.ch"><b>der bioladen</b></a><br/>Wir glauben daran, dass nur natürliche, nachhaltige und am besten so nah wie möglich produzierte Lebensmittel gut genug sind, um auf Ihren Tellern zu landen. Dafür setzen wir uns ein. Bei uns finden Sie fast alles in bester Demeter‐ und Bioqualität. Gleichzeitig wird Nachhaltigkeit bei uns grossgeschrieben. Mit grösster Sicherheit können wir Ihnen dies garantieren, wenn wir genau wissen, woher unsere Produkte stammen. Deshalb beziehen wir diese, wo immer möglich, direkt von nahen Produzenten.<br/>Altstetterstrasse 128, 8048 Zürich<br/>Mo-Fr 08.00-19.00 / Sa 08.00-16.00</div>')[0];
+                popup_9cf1dff4679c41eb9040b75a3bbcfc4a.setContent(html_aadeb7368c584b8da8cc77137300df02);
+            
+
+            marker_03a7e3a348b44c05a844b7bd4d737932.bindPopup(popup_9cf1dff4679c41eb9040b75a3bbcfc4a)
+            ;
+
+            
+        
+    
+        var marker_f9bf24f462584cbe95c4dfa2e9ef3e13 = L.marker(
+            [47.3837992, 8.532122937253],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_0899a634bd6b41ee8046debd70fb073b = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_f9bf24f462584cbe95c4dfa2e9ef3e13.setIcon(icon_0899a634bd6b41ee8046debd70fb073b);
+            
+    
+            var popup_744d39f352814f89b60c3dc80b8dceb3 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_f0a226bbc4ab49908b7abd0c904df4a1 = $('<div id="html_f0a226bbc4ab49908b7abd0c904df4a1" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.chornlade.ch"><b>Chornlade</b></a><br/>In unseren beiden Läden verkaufen wir ökologisch hergestellte Produkten aus biologischem Anbau. Ein grosser Teil unseres Sortiments stammt von Kleinproduzentinnen und -produzenten sowie von Kollektiven, die im Sinne der Genossenschaft arbeiten.<br/>Fierzgasse 16, 8005 Zürich<br/>Mo-Fr 09.00-19.00 / Sa 09.00-17.00</div>')[0];
+                popup_744d39f352814f89b60c3dc80b8dceb3.setContent(html_f0a226bbc4ab49908b7abd0c904df4a1);
+            
+
+            marker_f9bf24f462584cbe95c4dfa2e9ef3e13.bindPopup(popup_744d39f352814f89b60c3dc80b8dceb3)
+            ;
+
+            
+        
+    
+        var marker_5da6e5324e7a4e568602ca08b85cd780 = L.marker(
+            [47.3745121, 8.5143636],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_aa247490b1684016a531f378a1e2b47f = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_5da6e5324e7a4e568602ca08b85cd780.setIcon(icon_aa247490b1684016a531f378a1e2b47f);
+            
+    
+            var popup_ecb6d71b4b744fa69c737547ed7f9f9a = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_8e0ab7d15efb41648f3678f8d34ca1e8 = $('<div id="html_8e0ab7d15efb41648f3678f8d34ca1e8" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.chornlade.ch"><b>Chornlade</b></a><br/>In unseren beiden Läden verkaufen wir ökologisch hergestellte Produkten aus biologischem Anbau. Ein grosser Teil unseres Sortiments stammt von Kleinproduzentinnen und -produzenten sowie von Kollektiven, die im Sinne der Genossenschaft arbeiten.<br/>Zurlindenstrasse 211, 8003 Zürich<br/>Mo-Fr 09.00-19.00 / Sa 09.00-17.00</div>')[0];
+                popup_ecb6d71b4b744fa69c737547ed7f9f9a.setContent(html_8e0ab7d15efb41648f3678f8d34ca1e8);
+            
+
+            marker_5da6e5324e7a4e568602ca08b85cd780.bindPopup(popup_ecb6d71b4b744fa69c737547ed7f9f9a)
+            ;
+
+            
+        
+    
+        var marker_69ce75b4c1ed4860ab2890ecec60d25a = L.marker(
+            [47.3714519, 8.54364369387534],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_2049d38459654d47a670ce87d8fe5864 = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_69ce75b4c1ed4860ab2890ecec60d25a.setIcon(icon_2049d38459654d47a670ce87d8fe5864);
+            
+    
+            var popup_34b9ab0bfaf94e17be984efa2d8938e5 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_8ea17d81f94e4f2cba299d6634e4e4ab = $('<div id="html_8ea17d81f94e4f2cba299d6634e4e4ab" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.vitus-niederdorf.ch"><b>Markthalle Vitus</b></a><br/>Mit über 3500 biologischen Lebensmitteln und Naturkosmetik laden wir Sie ein zum Einkaufen in unserer Oase. Draussen das rege Treiben des Zürcher Niederdorfs. Drinnen Stukkaturdecken, alte Gemäuer und der Duft der ehemaligen Kaffeerösterei.<br/>Ankengasse 7, 8001 Zürich<br/>Mo-Fr 08.00-19.00 / Sa 08.00-18.00</div>')[0];
+                popup_34b9ab0bfaf94e17be984efa2d8938e5.setContent(html_8ea17d81f94e4f2cba299d6634e4e4ab);
+            
+
+            marker_69ce75b4c1ed4860ab2890ecec60d25a.bindPopup(popup_34b9ab0bfaf94e17be984efa2d8938e5)
+            ;
+
+            
+        
+    
+        var marker_c565f9f9704d4cceb3cfa6d4d0781a0f = L.marker(
+            [47.3546018, 8.5577322],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_61b758805ea14e5c806de2f40fe4d713 = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_c565f9f9704d4cceb3cfa6d4d0781a0f.setIcon(icon_61b758805ea14e5c806de2f40fe4d713);
+            
+    
+            var popup_adbc313b228b4c098cfcf7af6879a004 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_17be236218fa4c21ae04335b820cfc92 = $('<div id="html_17be236218fa4c21ae04335b820cfc92" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.reformhaus-seefeld.ch"><b>Reformhaus Seefeld</b></a><br/>Ihre Bio-Oase in Zürich<br/>Seefeldstrasse 187, 8008 Zürich<br/>Mo-Fr 08.00-18.30 / Sa 08.00-16.00</div>')[0];
+                popup_adbc313b228b4c098cfcf7af6879a004.setContent(html_17be236218fa4c21ae04335b820cfc92);
+            
+
+            marker_c565f9f9704d4cceb3cfa6d4d0781a0f.bindPopup(popup_adbc313b228b4c098cfcf7af6879a004)
+            ;
+
+            
+        
+    
+        var marker_7da5ac485c8a40b0a0e2974145ce0182 = L.marker(
+            [47.3760492, 8.4949766],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_057fa64a047a4df2afb33360c3bef085 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_7da5ac485c8a40b0a0e2974145ce0182.setIcon(icon_057fa64a047a4df2afb33360c3bef085);
+            
+    
+            var popup_15abc6423c98412c955c12009958b6e6 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_6df773f932ad42c9aafb8804388e0acd = $('<div id="html_6df773f932ad42c9aafb8804388e0acd" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.bachsermaert.ch"><b>Bachsermärt</b></a><br/>Beziehungen pflegen, Bauern bewundern, Manufakturen fördern, Lernende ausbilden, freundschaftliche Ladenteams bilden, die Liebe zum einfachen Essen vermitteln, im Dialog mit Kundinnen und Kunden sein, der Natur Bio und Demeter schenken, am runden Tisch gemeinsam entscheiden, geschlossene Lebensmittelkreisläufe schaffen, keinen Lebensmittelmüll produzieren, wirkliche Werte schöpfen, das bewegt den BachserMärt.<br/>Ginsterstrasse 1, 8047 Zürich<br/>Mo-Fr 08.00-19.00 / Sa 08.00-14.00</div>')[0];
+                popup_15abc6423c98412c955c12009958b6e6.setContent(html_6df773f932ad42c9aafb8804388e0acd);
+            
+
+            marker_7da5ac485c8a40b0a0e2974145ce0182.bindPopup(popup_15abc6423c98412c955c12009958b6e6)
+            ;
+
+            
+        
+    
+        var marker_3332fd8f55f8427981b204e41368b8bc = L.marker(
+            [47.3633732, 8.5497346],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_e45843e8ef8d48f782dfb527df51c93d = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_3332fd8f55f8427981b204e41368b8bc.setIcon(icon_e45843e8ef8d48f782dfb527df51c93d);
+            
+    
+            var popup_fa23d2c94b5c45e7a1e497e9ba1429e6 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_bdcbbced36024d3ea4a19022abcdcc21 = $('<div id="html_bdcbbced36024d3ea4a19022abcdcc21" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.bachsermaert.ch"><b>Bachsermärt</b></a><br/>Beziehungen pflegen, Bauern bewundern, Manufakturen fördern, Lernende ausbilden, freundschaftliche Ladenteams bilden, die Liebe zum einfachen Essen vermitteln, im Dialog mit Kundinnen und Kunden sein, der Natur Bio und Demeter schenken, am runden Tisch gemeinsam entscheiden, geschlossene Lebensmittelkreisläufe schaffen, keinen Lebensmittelmüll produzieren, wirkliche Werte schöpfen, das bewegt den BachserMärt.<br/>Seefeldstrasse 29, 8008 Zürich<br/>Mo-Fr 08.00-19.00 / Sa 09.00-18.00</div>')[0];
+                popup_fa23d2c94b5c45e7a1e497e9ba1429e6.setContent(html_bdcbbced36024d3ea4a19022abcdcc21);
+            
+
+            marker_3332fd8f55f8427981b204e41368b8bc.bindPopup(popup_fa23d2c94b5c45e7a1e497e9ba1429e6)
+            ;
+
+            
+        
+    
+        var marker_1b4d5a882e3a4bce97142afd5a046d14 = L.marker(
+            [47.3745198, 8.5206088],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_e1197f692a674c22858dcb22217139f8 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_1b4d5a882e3a4bce97142afd5a046d14.setIcon(icon_e1197f692a674c22858dcb22217139f8);
+            
+    
+            var popup_a3e39853e90e473ca69acf35c90d4a88 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_b0b8872bac80480d8baa06af12521764 = $('<div id="html_b0b8872bac80480d8baa06af12521764" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.bachsermaert.ch"><b>Bachsermärt</b></a><br/>Beziehungen pflegen, Bauern bewundern, Manufakturen fördern, Lernende ausbilden, freundschaftliche Ladenteams bilden, die Liebe zum einfachen Essen vermitteln, im Dialog mit Kundinnen und Kunden sein, der Natur Bio und Demeter schenken, am runden Tisch gemeinsam entscheiden, geschlossene Lebensmittelkreisläufe schaffen, keinen Lebensmittelmüll produzieren, wirkliche Werte schöpfen, das bewegt den BachserMärt.<br/>Badenerstrasse 171, 8003 Zürich<br/>Mo-Fr 07.00-20.00 / Sa 07.00-18.00</div>')[0];
+                popup_a3e39853e90e473ca69acf35c90d4a88.setContent(html_b0b8872bac80480d8baa06af12521764);
+            
+
+            marker_1b4d5a882e3a4bce97142afd5a046d14.bindPopup(popup_a3e39853e90e473ca69acf35c90d4a88)
+            ;
+
+            
+        
+    
+        var marker_fb141578cd0f4849ac936d181ccbf3aa = L.marker(
+            [47.3937221, 8.5284365],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_d0830b4fae5c465d90b2bed783dc0f1b = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_fb141578cd0f4849ac936d181ccbf3aa.setIcon(icon_d0830b4fae5c465d90b2bed783dc0f1b);
+            
+    
+            var popup_901abcd94e22407dbfa30db383df487e = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_8b931193d50f4d4c912bf8469591204b = $('<div id="html_8b931193d50f4d4c912bf8469591204b" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.ultimobacio.ch"><b>L&#039; ultimo Bacio</b></a><br/>Unsere Leidenschaft ist das Leben, das Lieben, das laute Feiern und stille Geniessen. Unsere Läden sollen Treffpunkt sein, wo jung und greis, chic und wild, alternativ und adrett sich begegnen. Bio ist für uns nicht Religion sondern viel mehr, Selbstverständlichkeit, aber immer lust- und geschmacksvoll, wir sind immer auf der Suche nach der kleinen Manufaktur, dem Käser im kleinen Seitental, dem kleinen Bäcker, der dem Teig noch Musse gewährt und dem Korn die Anerkennung.<br/>Nordstrasse 227, 8037 Zürich<br/>Mo-Sa 07.00-23.00</div>')[0];
+                popup_901abcd94e22407dbfa30db383df487e.setContent(html_8b931193d50f4d4c912bf8469591204b);
+            
+
+            marker_fb141578cd0f4849ac936d181ccbf3aa.bindPopup(popup_901abcd94e22407dbfa30db383df487e)
+            ;
+
+            
+        
+    
+        var marker_5e87413455f3452681c5e98daa72d693 = L.marker(
+            [47.3789774, 8.55395854698276],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_12f5c4500812425c9ec31774d38b1690 = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_5e87413455f3452681c5e98daa72d693.setIcon(icon_12f5c4500812425c9ec31774d38b1690);
+            
+    
+            var popup_96a0bca0a4a148cea1393d2a7b62234b = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_ba5c699ee8704c35883501485e162eb1 = $('<div id="html_ba5c699ee8704c35883501485e162eb1" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.ultimobacio.ch"><b>L&#039; ultimo Bacio</b></a><br/>Unsere Leidenschaft ist das Leben, das Lieben, das laute Feiern und stille Geniessen. Unsere Läden sollen Treffpunkt sein, wo jung und greis, chic und wild, alternativ und adrett sich begegnen. Bio ist für uns nicht Religion sondern viel mehr, Selbstverständlichkeit, aber immer lust- und geschmacksvoll, wir sind immer auf der Suche nach der kleinen Manufaktur, dem Käser im kleinen Seitental, dem kleinen Bäcker, der dem Teig noch Musse gewährt und dem Korn die Anerkennung.<br/>Voltastrasse 40, 8044 Zürich<br/>Mo-Sa 07.00-20.00</div>')[0];
+                popup_96a0bca0a4a148cea1393d2a7b62234b.setContent(html_ba5c699ee8704c35883501485e162eb1);
+            
+
+            marker_5e87413455f3452681c5e98daa72d693.bindPopup(popup_96a0bca0a4a148cea1393d2a7b62234b)
+            ;
+
+            
+        
+    
+        var marker_ee1fb99f1cb2431db4469d913d796c15 = L.marker(
+            [47.4999928, 8.7329859],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_56ead171d839404d97cb6e9fb4a02c8e = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_ee1fb99f1cb2431db4469d913d796c15.setIcon(icon_56ead171d839404d97cb6e9fb4a02c8e);
+            
+    
+            var popup_ca14cfe1a65e4295a2fa1d9afea0eabd = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_5074d3eae4dc4c858bec3f1e72e954af = $('<div id="html_5074d3eae4dc4c858bec3f1e72e954af" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.ultimobacio.ch"><b>L&#039; ultimo Bacio</b></a><br/>Unsere Leidenschaft ist das Leben, das Lieben, das laute Feiern und stille Geniessen. Unsere Läden sollen Treffpunkt sein, wo jung und greis, chic und wild, alternativ und adrett sich begegnen. Bio ist für uns nicht Religion sondern viel mehr, Selbstverständlichkeit, aber immer lust- und geschmacksvoll, wir sind immer auf der Suche nach der kleinen Manufaktur, dem Käser im kleinen Seitental, dem kleinen Bäcker, der dem Teig noch Musse gewährt und dem Korn die Anerkennung.<br/>Obertor 5, 8400 Winterthur<br/>Mo-Do 07.00-21.00 / Fr-Sa 07.00-23.00</div>')[0];
+                popup_ca14cfe1a65e4295a2fa1d9afea0eabd.setContent(html_5074d3eae4dc4c858bec3f1e72e954af);
+            
+
+            marker_ee1fb99f1cb2431db4469d913d796c15.bindPopup(popup_ca14cfe1a65e4295a2fa1d9afea0eabd)
+            ;
+
+            
+        
+    
+        var marker_90d3385fccf94dec90d2fcd4aa7b0d0d = L.marker(
+            [47.238588, 8.9994913],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_08827dafaaf14da7bf48a6b0a0885e4f = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_90d3385fccf94dec90d2fcd4aa7b0d0d.setIcon(icon_08827dafaaf14da7bf48a6b0a0885e4f);
+            
+    
+            var popup_b4f907a4418141d3b6a2d482a9acbad3 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_737ea6caf31542eb9dc55841b23d0c33 = $('<div id="html_737ea6caf31542eb9dc55841b23d0c33" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.ultimobacio.ch"><b>L&#039; ultimo bacio</b></a><br/>Unsere Leidenschaft ist das Leben, das Lieben, das laute Feiern und stille Geniessen. Unsere Läden sollen Treffpunkt sein, wo jung und greis, chic und wild, alternativ und adrett sich begegnen. Bio ist für uns nicht Religion sondern viel mehr, Selbstverständlichkeit, aber immer lust- und geschmacksvoll, wir sind immer auf der Suche nach der kleinen Manufaktur, dem Käser im kleinen Seitental, dem kleinen Bäcker, der dem Teig noch Musse gewährt und dem Korn die Anerkennung.<br/>Poststrasse 14, 9000 St.Gallen<br/>Mo-Do 06.00-22.00 / Fr-Sa 06.00-24.00</div>')[0];
+                popup_b4f907a4418141d3b6a2d482a9acbad3.setContent(html_737ea6caf31542eb9dc55841b23d0c33);
+            
+
+            marker_90d3385fccf94dec90d2fcd4aa7b0d0d.bindPopup(popup_b4f907a4418141d3b6a2d482a9acbad3)
+            ;
+
+            
+        
+    
+        var marker_69f600e506b24a87ac40c2811dae75a9 = L.marker(
+            [47.3695441, 8.5552924],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_9cd7a737b5814cbb8bed831b9765ef3d = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_69f600e506b24a87ac40c2811dae75a9.setIcon(icon_9cd7a737b5814cbb8bed831b9765ef3d);
+            
+    
+            var popup_69734c7ce8734f05af5f7dbf834699b5 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_a7b9dbb3914243369ec9f8c921be031d = $('<div id="html_a7b9dbb3914243369ec9f8c921be031d" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.vze.ch/Einrichtungen/Vier-Linden.15.html"><b>Vier Linden</b></a><br/>In den Vier Linden Betrieben bieten wir jungen Menschen mit schulischen Entwicklungsschwierigkeiten oder körperlichen Beeinträchtigungen die Möglichkeit zu einer beruflichen Eingliederung. Unser Ziel ist es, diesen Lernenden nach einer zwei- bis dreijährigen Lehrzeit den Weg in die allgemeine Wirtschaft zu ermöglichen.<br/>Gemeindestrasse 51, 8032 Zürich<br/>Mo-Fr 08.00-18.30 / Sa 08.00-16.00</div>')[0];
+                popup_69734c7ce8734f05af5f7dbf834699b5.setContent(html_a7b9dbb3914243369ec9f8c921be031d);
+            
+
+            marker_69f600e506b24a87ac40c2811dae75a9.bindPopup(popup_69734c7ce8734f05af5f7dbf834699b5)
+            ;
+
+            
+        
+    
+        var marker_c660c4faecc4475e803036f7d3caf436 = L.marker(
+            [47.3699602, 8.5133361],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_5e28c8c28f1849138b2d60d51a66c1cf = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_c660c4faecc4475e803036f7d3caf436.setIcon(icon_5e28c8c28f1849138b2d60d51a66c1cf);
+            
+    
+            var popup_b691c990f3d14f5890d74167e9290ab5 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_026b6230709747cdbe89d33ea588696b = $('<div id="html_026b6230709747cdbe89d33ea588696b" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.vze.ch/Einrichtungen/Vier-Linden.15.html"><b>Vier Linden Bäckerei</b></a><br/>In den Vier Linden Betrieben bieten wir jungen Menschen mit schulischen Entwicklungsschwierigkeiten oder körperlichen Beeinträchtigungen die Möglichkeit zu einer beruflichen Eingliederung. Unser Ziel ist es, diesen Lernenden nach einer zwei- bis dreijährigen Lehrzeit den Weg in die allgemeine Wirtschaft zu ermöglichen.<br/>Goldbrunnenstrasse 111, 8055 Zürich<br/>Mo-Fr 06.00-18.30 / Sa 06.00-16.00</div>')[0];
+                popup_b691c990f3d14f5890d74167e9290ab5.setContent(html_026b6230709747cdbe89d33ea588696b);
+            
+
+            marker_c660c4faecc4475e803036f7d3caf436.bindPopup(popup_b691c990f3d14f5890d74167e9290ab5)
+            ;
+
+            
+        
+    
+        var marker_02b55bed2bc74dc5a1165e11a58da799 = L.marker(
+            [47.3672882, 8.5608406],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_b3301e48d82040d4a605da59febdc87c = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_02b55bed2bc74dc5a1165e11a58da799.setIcon(icon_b3301e48d82040d4a605da59febdc87c);
+            
+    
+            var popup_1d2d8b6e3fde4c2993037169fcf5123c = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_8506df10e7234d239a7bce0b8a5d4b2f = $('<div id="html_8506df10e7234d239a7bce0b8a5d4b2f" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.justus-roemerhof.ch"><b>Justus Römerhof</b></a><br/>Das JUSTUS ist ein Quartier-Bistro/Cafe und Take Away in einem. Interieur, Stimmung und unsere Angebote laden zum Geniessen, Entspannen, Entdecken und Verweilen ein. Unsere Philosophie: FRISCHE SAISONALE PRODUKTE+ NACHHALTIGKEIT+ BIOQUALITÄT= EINZIGARTIGER GENUSS<br/>Asylstrasse 70, 8032 Zürich<br/>Di-Sa 08.30-22.00</div>')[0];
+                popup_1d2d8b6e3fde4c2993037169fcf5123c.setContent(html_8506df10e7234d239a7bce0b8a5d4b2f);
+            
+
+            marker_02b55bed2bc74dc5a1165e11a58da799.bindPopup(popup_1d2d8b6e3fde4c2993037169fcf5123c)
+            ;
+
+            
+        
+    
+        var marker_0f2ae79b291e43d495f82ac9dc1351ea = L.marker(
+            [47.3914624, 8.53919457023894],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_481cdef67896427ba16a50fb3e0d10e8 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_0f2ae79b291e43d495f82ac9dc1351ea.setIcon(icon_481cdef67896427ba16a50fb3e0d10e8);
+            
+    
+            var popup_b1884d2c947d475b89e4cd1130445aee = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_49f5ca9d4e7144c2a25fb396344b609e = $('<div id="html_49f5ca9d4e7144c2a25fb396344b609e" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.evas-apples.ch"><b>Eva&#039;s apples</b></a><br/>Mit unseren Läden in Zürich-Schaffhauserplatz, Zürich-Wollishofen und Bern, sowie dem Online-Shop wollen wir viele Menschen inspirieren und für die vegane Ernährung begeistern. Wir beraten und geben Tipps, du kannst aber auch einfach in Ruhe schmökern und einkaufen.<br/>Weinbergstrasse 168, 8006 Zürich<br/>Di-Fr 10.30-18.30 / Sa 09.00-17.00</div>')[0];
+                popup_b1884d2c947d475b89e4cd1130445aee.setContent(html_49f5ca9d4e7144c2a25fb396344b609e);
+            
+
+            marker_0f2ae79b291e43d495f82ac9dc1351ea.bindPopup(popup_b1884d2c947d475b89e4cd1130445aee)
+            ;
+
+            
+        
+    
+        var marker_87cd933c67c54eaaa660ca0396317e86 = L.marker(
+            [47.3434044, 8.5300543],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_fb5d143249a24770bb2deb0aef7d0c8b = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_87cd933c67c54eaaa660ca0396317e86.setIcon(icon_fb5d143249a24770bb2deb0aef7d0c8b);
+            
+    
+            var popup_eb2746f2d9304f588c09d74052464910 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_da4a8cadba3e4264941319a95c83bac3 = $('<div id="html_da4a8cadba3e4264941319a95c83bac3" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.evas-apples.ch"><b>Eva&#039;s apples</b></a><br/>Mit unseren Läden in Zürich-Schaffhauserplatz, Zürich-Wollishofen und Bern, sowie dem Online-Shop wollen wir viele Menschen inspirieren und für die vegane Ernährung begeistern. Wir beraten und geben Tipps, du kannst aber auch einfach in Ruhe schmökern und einkaufen.<br/>Albisstrasse 50, 8038 Zürich<br/>Mo-Fr 09.30-19.00 / Sa 09.00-17.00</div>')[0];
+                popup_eb2746f2d9304f588c09d74052464910.setContent(html_da4a8cadba3e4264941319a95c83bac3);
+            
+
+            marker_87cd933c67c54eaaa660ca0396317e86.bindPopup(popup_eb2746f2d9304f588c09d74052464910)
+            ;
+
+            
+        
+    
+        var marker_1ea9133eaeaf49e4862bbbadf4c23a1f = L.marker(
+            [47.4980808, 8.7289351],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_0df337b35640492e8556442131f6123a = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_1ea9133eaeaf49e4862bbbadf4c23a1f.setIcon(icon_0df337b35640492e8556442131f6123a);
+            
+    
+            var popup_a5d0c4983e5e41c1bf1d2f5c177be743 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_767d45bae8b04d20a82e217ba56b6452 = $('<div id="html_767d45bae8b04d20a82e217ba56b6452" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.bareware.ch"><b>bare Ware</b></a><br/>Bei bare Ware kannst du biologisch, regional und verpackungsfrei einkaufen und gleichzeitig Food Waste vermeiden. Wir setzen uns ein für faire und nachhaltige Produktion von Lebensmitteln auf der ganzen Linie. Dazu gehört die Integration von nachhaltigen Projekten und faire Bedingungen für alle Beteiligten. <br/>Steinberggasse 29, 8400 Winterthur<br/>Di-Fr 9.00-19.00 / Sa 10.00-16.30</div>')[0];
+                popup_a5d0c4983e5e41c1bf1d2f5c177be743.setContent(html_767d45bae8b04d20a82e217ba56b6452);
+            
+
+            marker_1ea9133eaeaf49e4862bbbadf4c23a1f.bindPopup(popup_a5d0c4983e5e41c1bf1d2f5c177be743)
+            ;
+
+            
+        
+    
+        var marker_79dbc19a5248494ea1953e6150184b48 = L.marker(
+            [47.3922105, 8.0440014],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_ac2577c05ada4966a7bbea99ce31f5d0 = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_79dbc19a5248494ea1953e6150184b48.setIcon(icon_ac2577c05ada4966a7bbea99ce31f5d0);
+            
+    
+            var popup_d3b8b77db57d4761ac7626ea52fd5889 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_689b50e19a9e4010899a7fd7b8c1bf20 = $('<div id="html_689b50e19a9e4010899a7fd7b8c1bf20" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.unverpackt-aarau.ch/"><b>Unverpackt Aarau</b></a><br/>Wie der Name schon sagt: U N V E R P A C K T. Endlich hast du die Gelegenheit, dem Verpackungsmüll entgegenzuwirken indem du mit deinen eigenen Behältern und Beutel genau die Menge einkaufst, wie sie für dich passt! Lebensmittel, Hygieneprodukte, Putzmittel, Zero Waste<br/>Milchgasse 5, 5000 Aarau<br/>Di-Fr 10.00-13.00, 15.00-18.30 / Sa 9.00-16.00</div>')[0];
+                popup_d3b8b77db57d4761ac7626ea52fd5889.setContent(html_689b50e19a9e4010899a7fd7b8c1bf20);
+            
+
+            marker_79dbc19a5248494ea1953e6150184b48.bindPopup(popup_d3b8b77db57d4761ac7626ea52fd5889)
+            ;
+
+            
+        
+    
+        var marker_4e7cc014aabf4dc38238e1d82ffc2875 = L.marker(
+            [47.4753422, 8.3058744],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_4080a272c232451d9b7404549c866cc5 = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_4e7cc014aabf4dc38238e1d82ffc2875.setIcon(icon_4080a272c232451d9b7404549c866cc5);
+            
+    
+            var popup_58c93c82d7e34f0584c628c842a71458 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_b9d7ae4b734f496c9c85dd0eba9884e6 = $('<div id="html_b9d7ae4b734f496c9c85dd0eba9884e6" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.ohne.ch/"><b>Ohne Laden</b></a><br/>Wir verkaufen unverpackt und schadstofffrei! Lebensmittel, Kosmetik, Haushaltprodukte, Zero Waste<br/>Stadtturmstrasse 15, 5400 Baden AG<br/>Di-Fr 8.30-19.00 Sa 9.00-16.00</div>')[0];
+                popup_58c93c82d7e34f0584c628c842a71458.setContent(html_b9d7ae4b734f496c9c85dd0eba9884e6);
+            
+
+            marker_4e7cc014aabf4dc38238e1d82ffc2875.bindPopup(popup_58c93c82d7e34f0584c628c842a71458)
+            ;
+
+            
+        
+    
+        var marker_a19b7736f46f40f4807775c640af21dc = L.marker(
+            [46.9976198, 6.9360365],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_2ebdfca76c764c08ae6fc03cb7e1234e = L.AwesomeMarkers.icon({
+                    icon: 'asterisk',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_a19b7736f46f40f4807775c640af21dc.setIcon(icon_2ebdfca76c764c08ae6fc03cb7e1234e);
+            
+    
+            var popup_7be150acedb74cf08576d6ac86313ef6 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_debd032ae5de47dc8b9407c710321317 = $('<div id="html_debd032ae5de47dc8b9407c710321317" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://www.facebook.com/eateco.neuchatel/"><b>Eateco Naturalfood</b></a><br/>Veganes Restaurant Eat.eco est né d&#039;un désir d&#039;apporter une nourriture saine, authentique et consciente sur la table des gens. Dans les ingrédients que nous utilisons pour préparer nos menus journaliers, vous trouverez un condensé de toutes nos valeurs: respect de la nature, de l&#039;environnement et respect des gens. Nous choisissons les ingrédients crus(matières premières) avec soin et attention. Tous les légumes sont autant que possible du pays et de saison.<br/>Faubourg de la gare 11A, 2000 Neuenburg<br/>Mo-Fr 11.45-14.00</div>')[0];
+                popup_7be150acedb74cf08576d6ac86313ef6.setContent(html_debd032ae5de47dc8b9407c710321317);
+            
+
+            marker_a19b7736f46f40f4807775c640af21dc.bindPopup(popup_7be150acedb74cf08576d6ac86313ef6)
+            ;
+
+            
+        
+    
+        var marker_0c726f21db19475891ee4076d90e87d9 = L.marker(
+            [47.1420832, 7.2476119],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_3c151409a3a54071a0965f739f4d95a9 = L.AwesomeMarkers.icon({
+                    icon: 'shopping-basket',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_0c726f21db19475891ee4076d90e87d9.setIcon(icon_3c151409a3a54071a0965f739f4d95a9);
+            
+    
+            var popup_5a46cbd177394232ac83eb93f2594162 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_c4702a8dc44242659917b8c09f92a850 = $('<div id="html_c4702a8dc44242659917b8c09f92a850" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="https://terrevision.ch/"><b>TerreVision</b></a><br/>Vertragslandwirtschaft, Bio-Produkte<br/>Gerbergasse 25, 2502 Biel<br/>Di 17.00-19.30</div>')[0];
+                popup_5a46cbd177394232ac83eb93f2594162.setContent(html_c4702a8dc44242659917b8c09f92a850);
+            
+
+            marker_0c726f21db19475891ee4076d90e87d9.bindPopup(popup_5a46cbd177394232ac83eb93f2594162)
+            ;
+
+            
+        
+    
+        var marker_963aa46bfeff4587ab1ac73798457907 = L.marker(
+            [47.0406265, 9.0689995],
+            {
+                icon: new L.Icon.Default()
+                }
+            ).addTo(marker_cluster_2c90d5f847a247e8adb168a1f802c0db);
+        
+    
+
+                var icon_517db40271e940c2a59741832c1c38ab = L.AwesomeMarkers.icon({
+                    icon: 'money',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_963aa46bfeff4587ab1ac73798457907.setIcon(icon_517db40271e940c2a59741832c1c38ab);
+            
+    
+            var popup_a6ed02f652954829ba8e817e7becc8a5 = L.popup({maxWidth: '300'
+            
+            });
+
+            
+                var html_838a3f6b6a014995b1a4f3db23377b3a = $('<div id="html_838a3f6b6a014995b1a4f3db23377b3a" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.bioladenulme.ch"><b>Bioladen Ulme</b></a><br/>Bio und delikat essen. Seit 1988.<br/>Bankstrasse 30 8750 Glarus<br/>Mo  14:00–18:30 Di-Do 9:00–12:00  14:00–18:30 Fr 9:00–18:30   Sa 8:00–16:00  </div>')[0];
+                popup_a6ed02f652954829ba8e817e7becc8a5.setContent(html_838a3f6b6a014995b1a4f3db23377b3a);
+            
+
+            marker_963aa46bfeff4587ab1ac73798457907.bindPopup(popup_a6ed02f652954829ba8e817e7becc8a5)
+            ;
+
+            
+        
+</script>

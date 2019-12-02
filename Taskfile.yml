@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: '2'
+
+vars:
+  EXECUTABLE: gomap
+  WINDOWS64: "{{.EXECUTABLE}}_windows_amd64.exe"
+  LINUX64: "{{.EXECUTABLE}}_linux_amd64"
+  DARWIN64: "{{.EXECUTABLE}}_darwin_amd64"
+
+
+tasks:  
+  windows64:
+    cmds:
+      - GOOS=windows GOARCH=amd64 go build -o {{.WINDOWS64}}
+  
+  linux64:
+    cmds:
+      - GOOS=linux GOARCH=amd64 go build -o {{.LINUX64}}
+
+  darwin64:
+    cmds:
+      - GOOS=darwin GOARCH=amd64 go build -o {{.DARWIN64}}
+
+  default:
+    deps: [windows64, linux64, darwin64]

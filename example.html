@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_PREFER_CANVAS=true; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawgit.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>    
+    <style>#map{position: relative; width: 100.0%; height: 100.0%; left: 0.0%;top: 0.0%;} </style>
+
+  <style>body {padding-top: 65px;}</style>
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">less</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            <button type="button" class="btn btn-sm align-middle btn-outline-secondary"  data-toggle="modal" data-target="#legendModal">Legende</button>
+            </li>
+            <li class="nav-item">
+            <button type="button" class="btn btn-sm align-middle btn-outline-secondary"  data-toggle="modal" data-target="#aboutModal">Über</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="legendModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Legende</h4>
+      </div>
+      <div class="modal-body">
+        <p><i class="fa fa-wrench" aria-hidden="true"></i> Werkstatt</p>
+        <p><i class="fa fa-money" aria-hidden="true"></i> Laden</p>
+        <p><i class="fa fa-shopping-basket" aria-hidden="true"></i> Lebensmittel</p>
+        <p><i class="fa fa-laptop" aria-hidden="true"></i> Elektronik</p>
+        <p><i class="fa fa-microchip" aria-hidden="true"></i> Hackerspace</p>
+        <p><i class="fa fa-tree" aria-hidden="true"></i> Holzwerkstatt</p>
+        <p><i class="fa fa-magnet" aria-hidden="true"></i> Bastelmaterial</p>
+        <p><i class="fa fa-cog" aria-hidden="true"></i> Metallwerkstatt</p>
+        <p><i class="fa fa-calendar" aria-hidden="true"></i> Event</p>
+        <p><i class="fa fa-bicycle" aria-hidden="true"></i> Velowerkstatt</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="aboutModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Über</h4>
+      </div>
+      <div class="modal-body">
+        <p>Wir, die Greenpeace Regionalgruppe Zürich, haben beschlossen eine Karte zu machen, mit Orten und Anlässen an denen Zeug repariert oder selber gebaut werden kann, Lebensmittel ohne Verpackung verkauft werden und so weiter. </p>
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="folium-map" id="map" ></div>
+</body>
+
+<script>
+  var bounds = null;
+  var map = L.map(
+      'map', {
+      center: [47.3686498, 8.5391825],
+      zoom: 8,
+      maxBounds: bounds,
+      layers: [],
+      worldCopyJump: false,
+      crs: L.CRS.EPSG3857,
+      zoomControl: true,
+      });
+
+  var tile_layer = L.tileLayer(
+      'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', // toner, watercolor, terrain
+      {
+      "attribution": null,
+      "detectRetina": false,
+      "maxNativeZoom": 16,
+      "maxZoom": 16,
+      "minZoom": 6,
+      "noWrap": false,
+      "subdomains": "abc"
+  }).addTo(map);
+
+  var marker_cluster = L.markerClusterGroup({});
+  map.addLayer(marker_cluster);
+          
+  var marker = L.marker([47.3833119, 8.53934095493378],{icon: new L.Icon.Default()}).addTo(marker_cluster);
+  var icon = L.AwesomeMarkers.icon({icon: 'wrench', iconColor: 'white', markerColor: 'green',prefix: 'fa', extraClasses: 'fa-rotate-0'});
+  marker.setIcon(icon);
+
+  var popup = L.popup({maxWidth: '300'});
+  var html = $('<div id="html" style="width: 100.0%; height: 100.0%;"><a target="_blank" href="http://www.dynamo.ch/werkbereich"><b>Dynamo</b></a><br/>Diverse Werkstätten: Veschiedenste Maschinen, die man je nach dem mit oder ohne Kurs benutzen kann. Darunter ein gut gewarterter Lasercutter<br/>Wasserwerkstrasse 21, 8006 Zürich<br/>Mi-Fr: 14.00 - 21.00, Sa: 14.00 - 19.00</div>')[0];
+  popup.setContent(html);
+  marker.bindPopup(popup);
