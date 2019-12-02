@@ -20,7 +20,12 @@ tasks:
 
   darwin64:
     cmds:
-      - GOOS=darwin GOARCH=amd64 go build -o {{.DARWIN64}}
+      - GOOS=darwin GOARCH=amd64 go build -o  {{.DARWIN64}}
+
+  clean:
+    cmds:
+      - rm {{.WINDOWS64}} {{.LINUX64}}  {{.DARWIN64}}
 
   default:
     deps: [windows64, linux64, darwin64]
+
