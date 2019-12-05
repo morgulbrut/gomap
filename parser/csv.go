@@ -19,6 +19,7 @@ type Entry struct { // Our example struct, you can use "-" to ignore a field
 	Desc    string `csv:"desc"`
 	Times   string `csv:"opening_times"`
 	Type    string `csv:"type"`
+	Color   string `csv:"color"`
 }
 
 func ReadCSV(path string, data *leaflet.Mapdata) []leaflet.Marker {
@@ -53,6 +54,8 @@ func ReadCSV(path string, data *leaflet.Mapdata) []leaflet.Marker {
 
 		if data.MarkerColor == "random" {
 			mrkCol = randomColor()
+		} else if data.MarkerColor == "csv" {
+			mrkCol = entry.Color
 		} else {
 			mrkCol = data.MarkerColor
 		}
