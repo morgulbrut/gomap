@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -48,6 +49,13 @@ func ReadCSV(path string, data *leaflet.Mapdata) []leaflet.Marker {
 	for _, entry := range entries {
 		colorlog.Debug("Adding marker for %s", entry.Name)
 		pos = geocode.GetCoord(entry.Address)
+		var mrkCol string
+
+		if data.MarkerColor == "random" {
+			mrkCol = randomColor()
+		} else {
+			mrkCol = data.MarkerColor
+		}
 
 		mr = leaflet.Marker{
 			Name:     strconv.Itoa(indx),
@@ -55,7 +63,7 @@ func ReadCSV(path string, data *leaflet.Mapdata) []leaflet.Marker {
 			Icon: leaflet.Icon{
 				Symbol:      leaflet.Syms[entry.Type],
 				IconColor:   data.IconColor,
-				MarkerColor: data.MarkerColor,
+				MarkerColor: mrkCol,
 			},
 			Popup: leaflet.Popup{
 				Link:    strings.ReplaceAll(entry.URL, "'", `\'`),
@@ -68,4 +76,8 @@ func ReadCSV(path string, data *leaflet.Mapdata) []leaflet.Marker {
 		markers = append(markers, mr)
 	}
 	return markers
+}
+
+func randomColor() string {
+	return leaflet.Colors[rand.Perm(len(leaflet.Colors))[0]]
 }

@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/morgulbrut/colorlog"
 	"github.com/morgulbrut/gomap/geocode"
@@ -41,6 +43,9 @@ func readMapConfig() leaflet.Mapdata {
 }
 
 func main() {
+	// Initialize random number generator
+	rand.Seed(int64(time.Now().Nanosecond()))
+
 	logo()
 	pr := argparse.NewParser("goMap", "Generates a map from a given input file")
 	v := pr.Flag("v", "verbose", &argparse.Options{Required: false, Help: "Set verbosity"})

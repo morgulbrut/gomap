@@ -2,9 +2,8 @@ package leaflet
 
 import (
 	"bytes"
-	"math/rand"
+	"strings"
 	"text/template"
-	"time"
 
 	"github.com/morgulbrut/colorlog"
 )
@@ -38,35 +37,23 @@ type Marker struct {
 // Syms is a map representing a collection of fontawesome symbols mapped to keywords
 var Syms map[string]string
 
-var colors = []string{"red", "blue", "green", "purple", "orange", "darkred", "lightred", "beige", "darkblue",
+var Colors = []string{"red", "blue", "green", "purple", "orange", "darkred", "lightred", "beige", "darkblue",
 	"darkgreen", "cadetblue", "darkpurple", "white", "pink", "lightblue", "lightgreen", "gray", "black", "lightgray"}
 
 // MarkerString returns a chunk of JS representing a marker
 func MarkerString(m Marker, ma Mapdata) []byte {
-	var marker string
-	if m.Icon.MarkerColor == "random" {
-		col := randomColor()
-		marker = `
-		var marker = L.marker([{{.Position.Lat}}, {{.Position.Lon}}],{icon: new L.Icon.Default()}).addTo(marker_cluster);
-		var icon = L.AwesomeMarkers.icon({icon: '{{.Icon.Symbol}}', iconColor: '{{.Icon.IconColor}}', markerColor: '` + col + `', prefix: 'fa', extraClasses: 'fa-rotate-0'});
-		marker.setIcon(icon);
-	
-		var popup = L.popup({maxWidth: '300'});
-		var html = $('<div id="html" style="width: 100.0%%; height: 100.0%%;"><a target="_blank" href="{{.Popup.Link}}"><b>{{.Popup.Title}}</b></a><br/>{{.Popup.Desc}}<br/><br/><b>{{.Popup.Address}}</b><br/><br/>{{.Popup.Times}}</div>')[0];
-		popup.setContent(html);
-		marker.bindPopup(popup);`
-	} else {
-		marker = `
-		var marker = L.marker([{{.Position.Lat}}, {{.Position.Lon}}],{icon: new L.Icon.Default()}).addTo(marker_cluster);
-		var icon = L.AwesomeMarkers.icon({icon: '{{.Icon.Symbol}}', iconColor: '{{.Icon.IconColor}}', markerColor: '{{.Icon.MarkerColor}}', prefix: 'fa', extraClasses: 'fa-rotate-0'});
-		marker.setIcon(icon);
-	
-		var popup = L.popup({maxWidth: '300'});
-		var html = $('<div id="html" style="width: 100.0%%; height: 100.0%%;"><a target="_blank" href="{{.Popup.Link}}"><b>{{.Popup.Title}}</b></a><br/>{{.Popup.Desc}}<br/><br/><b>{{.Popup.Address}}</b><br/><br/>{{.Popup.Times}}</div>')[0];
-		popup.setContent(html);
-		marker.bindPopup(popup);`
-	}
-	tmpl, err := template.New("marker").Parse(marker)
+	var marker strings.Builder
+
+	marker.WriteString("var marker = L.marker([{{.Position.Lat}}, {{.Position.Lon}}],{icon: new L.Icon.Default()}).addTo(marker_cluster);")
+	marker.WriteString("var icon = L.AwesomeMarkers.icon({icon: '{{.Icon.Symbol}}', iconColor: '{{.Icon.IconColor}}', markerColor: '{{.Icon.MarkerColor}}', prefix: 'fa', extraClasses: 'fa-rotate-0'});")
+	marker.WriteString("marker.setIcon(icon);")
+
+	marker.WriteString("var popup = L.popup({maxWidth: '300'});")
+	marker.WriteString(`var html = $('<div id="html" style="width: 100.0%%; height: 100.0%%;"><a target="_blank" href="{{.Popup.Link}}"><b>{{.Popup.Title}}</b></a><br/>{{.Popup.Desc}}<br/><br/><b>{{.Popup.Address}}</b><br/><br/>{{.Popup.Times}}</div>')[0];`)
+	marker.WriteString("popup.setContent(html);")
+	marker.WriteString("marker.bindPopup(popup);")
+
+	tmpl, err := template.New("marker").Parse(marker.String())
 	if err != nil {
 		colorlog.Fatal(err.Error())
 	}
@@ -82,9 +69,4 @@ func MarkerString(m Marker, ma Mapdata) []byte {
 // Adds a marker to a map
 func AddMarker(m Marker, ma *Mapdata) {
 	ma.Markers = append(ma.Markers, m)
-}
-
-func randomColor() string {
-	rand.Seed(int64(time.Now().Nanosecond()))
-	return colors[rand.Perm(len(colors))[0]]
 }
